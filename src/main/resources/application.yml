@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: userData
+  config:
+    import: configserver:http://localhost:8888
+
+
+
+
