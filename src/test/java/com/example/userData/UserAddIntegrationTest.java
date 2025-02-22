@@ -38,8 +38,8 @@ public void getAllUsersIntegrationTest(){
          e.printStackTrace();
      }
 
+      userRepository.save(testUser);
      Long testUserId = testUser.getId();
-     userRepository.save(testUser);
      List<User> users = userService.getAllUsers();
      assertEquals(users.size(), countBefore + 1);
      userService.deleteUser(testUserId);
