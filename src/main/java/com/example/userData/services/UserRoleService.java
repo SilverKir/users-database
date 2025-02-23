@@ -34,28 +34,44 @@ public class UserRoleService {
         return getUserRole(userId, roleId);
     }
 
-    public List<Long> hasRoles(Long userId){
-        return getAllUserRoles().stream().filter(userRole -> userRole.getUserId()==userId)
+    public List<Long> hasRoles(Long userId) {
+        return getAllUserRoles().stream().filter(userRole -> userRole.getUserId() == userId)
                 .map(UserRole::getRoleId).collect(Collectors.toList());
     }
 
-    public List<Long> usersWithRole(Long roleId){
-        return getAllUserRoles().stream().filter(userRole -> userRole.getRoleId()==roleId)
+    public List<Long> usersWithRole(Long roleId) {
+        return getAllUserRoles().stream().filter(userRole -> userRole.getRoleId() == roleId)
                 .map(UserRole::getUserId).collect(Collectors.toList());
     }
 
-    public void deleteUserRole(Long userId, Long roleId){
+    public void deleteUserRole(Long userId, Long roleId) {
         if (!hasUserRole(userId, roleId)) {
-          userRoleRepository.delete(getUserRole(userId, roleId));
+            userRoleRepository.delete(getUserRole(userId, roleId));
         }
     }
 
-    public void deleteUser(Long userId){
-        userRoleRepository.deleteByUserId(userId);
+    public void deleteUser(Long userId) {
+        if (!hasRoles(userId).isEmpty()) {
+            userRoleRepository.deleteByUserId(userId);
+        }
     }
 
-    public void deleteRole(Long roleId){
-        userRoleRepository.deleteByRoleId(roleId);
+    public void deleteRole(Long roleId) {
+        if (!usersWithRole(roleId).isEmpty()) {
+            userRoleRepository.deleteByRoleId(roleId);
+        }
+    }
+
+    public void deleteAllByUserId(List<Long> usersIdList) {
+        for (Long userId : usersIdList) {
+            deleteUser(userId);
+        }
+    }
+
+    public void deleteAllByRoleId(List<Long> rolesIdList) {
+        for (Long roleId : rolesIdList) {
+            deleteRole(roleId);
+        }
     }
 
 }

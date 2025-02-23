@@ -38,4 +38,9 @@ public class RoleService {
         return deletedRole;
     }
 
+    public void deleteAllById(List<Long> rolesIdList){
+        roleRepository.deleteAllById(rolesIdList);
+        userRoleService.deleteAllByRoleId(rolesIdList);
+    }
+
 }
