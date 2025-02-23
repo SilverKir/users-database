@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserRoleService userRoleService;
 
     public User addUser(User user) {
         return userRepository.save(user);
@@ -33,6 +34,7 @@ public class UserService {
     public User deleteUser(Long id) {
         User deletedUser = getUserById(id);
         userRepository.deleteById(id);
+        userRoleService.deleteUser(id);
         return deletedUser;
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleService {
     private final RoleRepository roleRepository;
+    private final UserRoleService userRoleService;
 
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
@@ -33,6 +34,7 @@ public class RoleService {
     public Role deleteRole(Long id) {
         Role deletedRole = getRoleById(id);
         roleRepository.deleteById(id);
+        userRoleService.deleteRole(id);
         return deletedRole;
     }
 

@@ -18,4 +18,7 @@ public class UserRole {
         this.userId = userId;
         this.roleId = roleId;
     }
+
+
+
 }
