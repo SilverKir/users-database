@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.print.PrintException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -46,5 +47,23 @@ public class UserAddUnitTests {
         List<User> actualUsers=userService.getAllUsers();
         assertEquals(expectedUsers,actualUsers);
     }
+
+    private void setUsers(){
+        User user1 = new User();
+        user1.setName("Bill");
+        User user2 = new User();
+        user2.setName("John");
+        List<User> expectedUsers = new ArrayList<>();
+        expectedUsers.add(user1);
+        expectedUsers.add(user2);
+        when(userRepository.findAll()).thenReturn(expectedUsers);
+    }
+
+    @Test
+    public void addUserTest(){
+        setUsers();
+        assertEquals(userService.getAllUsers().size(),2);
+    }
+
 
 }
